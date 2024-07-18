@@ -34,9 +34,17 @@
 
 (tc/column-names layoffs)
 
-(defn tc-sum-by [column])
+(defn sum-#-of-layoffs [ds]
+  (as-> ds dataset
+    (:data dataset)
+    (:#-laid-off dataset)
+    (reduce + dataset)))
 
-(-> layoffs
-    (tc/group-by :country)
-    (tc/add-column :number-of-layoffs-by-country (sum-by :#-laid-off))
-    )
+;; (reduce + (map (fn [x] (:#-laid-off x)) (:data by-country)))
+
+(def layoffs-by-country
+  (-> layoffs
+      (tc/group-by :country)
+      (tc/add-column :#-layoffs-by-country sum-#-of-layoffs)))
+
+layoffs-by-country
