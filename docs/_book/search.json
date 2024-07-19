@@ -1,0 +1,32 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Studying layoffs in tech in 2024",
+    "section": "",
+    "text": "(ns index\n  (:require [tablecloth.api :as tc]\n            [scicloj.noj.v1.vis.hanami :as hanami]\n            [aerial.hanami.templates :as ht]\n            [scicloj.kindly.v4.kind :as kind]))\n\n\n1 A study on layoffs in tech 2024\nWelcome reader,\nlayoffs.fyi is a handy site that provides an Airtable view showcasing layoffs in tech. The data is mostly US based but I hope that it will grow in time\nThis site does a small statistical exploration on the dataset provided\nI used a small python script to do a .pdf export which I then converted to .csv\nI am open to receive contributions for something better as ideally we could connect this to a CI and have it self-update every day or so.\n\nsource: src/index.clj",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>A study on layoffs in tech 2024</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks.layoffs.html",
+    "href": "notebooks.layoffs.html",
+    "title": "2  Layoffs in 2024",
+    "section": "",
+    "text": "2.1 What countries where the most affected?\nThe top 3 countries that were the most affected by reported mass layoffs in tech were:\nThe following chart has a logarithmic scale applied to it so be sure to hover on each bar to have a clear number of layoffs over the desired country\nIt makes perfect sense for the chart to look like this as it seems to follow a pattern where the larger the tech economy, the harder the layoffs. However this is just a hypothesis\nTo formulate an answer to the question we first need to get a hold of an estimated size of the tech sector for each country There are however, a few pitfalls:",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Layoffs in 2024</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks.layoffs.html#what-countries-where-the-most-affected",
+    "href": "notebooks.layoffs.html#what-countries-where-the-most-affected",
+    "title": "2  Layoffs in 2024",
+    "section": "",
+    "text": "(def layoffs-by-country\n  (-&gt; layoffs\n      (tc/group-by :country)\n      (tc/aggregate {:total-layoffs (fn [ds]\n                                      (-&gt; ds\n                                          :#-laid-off\n                                          tcc/sum))})\n      (tc/order-by :total-layoffs :desc)))\n\n\n(def plotly-layoffs-by-country\n  {:data [{\n           :x    (:$group-name layoffs-by-country)\n           :y    (:total-layoffs layoffs-by-country)\n           :type :bar\n           :marker {:size 4 :colorscale :Viridis}}]\n   :layout {\n            :xaxis {:title \"Countries\" :type :category}\n            :yaxis {:title \"People laid off\" :type :log}\n            :title \"Layoffs by country\"}})\n\n\n\nUnited States\nIndia\nUnited Kingdom\n\n\n(tc/head layoffs-by-country 3)\n\n\n_unnamed [3 2]:\n\n\n\n:$group-name\n:total-layoffs\n\n\n\n\nUnited States\n110170.0\n\n\nIndia\n14227.0\n\n\nUnited Kingdom\n10176.0\n\n\n\n\n\n\n(kind/plotly plotly-layoffs-by-country)\n\n\n\n\n\nThe “tech” industry may encompass different businesses from country to country\nThere is no objective metrics for errors of measure across each entry\nLayoffs can be attributed to a transnational decision. E,g: a company with an HQ in country A may opt for mass layoffs in it’s office located in country B. But this study is attributing the layoffs to country B, even though the decision may come from the same company, located elsewhere.\n\n\nsource: src/notebooks/layoffs.clj",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Layoffs in 2024</span>"
+    ]
+  }
+]
