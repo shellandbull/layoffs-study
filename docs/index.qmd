@@ -1,0 +1,52 @@
+
+---
+format:
+  html: {toc: true, toc-depth: 4, theme: cosmo, output-file: index.html}
+fontsize: 0.9em
+code-block-background: true
+include-in-header: {text: '<link rel = "icon" href = "data:," />'}
+
+---
+<style></style><style>.printedClojure .sourceCode {
+  background-color: transparent;
+  border-style: none;
+}
+</style><style>.clay-limit-image-width .clay-image {max-width: 100%}
+</style>
+<script src="index_files/md-default0.js" type="text/javascript"></script><script src="index_files/md-default1.js" type="text/javascript"></script>
+
+::: {.sourceClojure}
+```clojure
+(ns index
+  (:require [tablecloth.api :as tc]
+            [scicloj.noj.v1.vis.hanami :as hanami]
+            [aerial.hanami.templates :as ht]
+            [scicloj.kindly.v4.kind :as kind]))
+```
+:::
+
+
+
+# A study on layoffs in tech 2024
+
+Welcome reader,
+
+[layoffs.fyi](https://layoffs.fyi/) is a handy site that provides an [Airtable](https://www.airtable.com/) view showcasing layoffs in tech.
+The data is mostly US based but I hope that it will grow in time
+
+This site does a small statistical exploration on the dataset provided
+
+I used a small python script to do a .pdf export which I then converted to .csv
+
+I am open to receive contributions for something better as ideally we could connect this to a CI and have it self-update every day or so.
+
+
+```{=html}
+<div style="background-color:grey;height:2px;width:100%;"></div>
+```
+
+
+
+```{=html}
+<div><pre><small><small>source: src/index.clj</small></small></pre></div>
+```
