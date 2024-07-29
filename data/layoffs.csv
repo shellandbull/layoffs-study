@@ -1,4 +1,4 @@
-Company,Location HQ,# Laid Off,Date,%,Industry,Source,List of Employees Laid Off,Stage,$ Raised (mm),Country,Date Added
+Company,Location HQ,# Laid Off,Date,%,Industry,Source,List of Employees Laid Off,Stage,$ Raised mm,Country,Date Added
 Salesforce,SF Bay Area,300,2024-07-15,,Sales,https://www.bloomberg.com/news/articles/2024-07-15/salesforce-cuts-about-300-jobs-in-latest-sign-of-tech-austerity,,Post-IPO,65,United States,2024-07-15
 Intuit,SF Bay Area,1800,2024-07-10,0.1,Finance,https://www.bloomberg.com/news/articles/2024-07-10/intuit-to-cull-10-of-employees-in-latest-round-of-tech-layoffs,,Post-IPO,18,United States,2024-07-10
 CyberProof,Los Angeles,,2024-07-10,0.07,Security,https://www.calcalistech.com/ctechnews/article/h1nrv0odr,,Subsidiary,,United States,2024-07-11

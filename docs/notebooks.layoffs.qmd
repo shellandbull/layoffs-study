@@ -31,14 +31,18 @@ include-in-header: {text: '<link rel = "icon" href = "data:," />'}
 
 # Layoffs in 2024
 
-2023 and 2024 have been really hard for tech. I have scraped the data from layoffs.fyi using [coupler.io](https://www.coupler.io/) which only limits me to the first 1,000 rows as I am using the freemium.
+2023 and 2024 have been hard for tech. I have scraped the layoff  data from layoffs.fyi using [coupler.io](https://www.coupler.io/).
 
-If you happen to know the OP of layoffs.fyi please show them this study. If we had a live integration with Airtable
-this could become a live study where we track the pulse of layoffs in tech.
+I am currently limited to the first 1,000 rows but I hope that will change once I gain a few
+donors for the project.
+
+If you know the author of [layoffs.fyi](https://layoffs.fyi) please show them this study.
+
+If we had a live integration with Airtable we could essentially have a live monitor for layoffs in tech globally. A first of it's kind.
 
 I am using the [scicloj](https://scicloj.github.io/) stack for this study.
 
-Without furder ado. Here's an analysis of tech layoffs in 2024
+Without further ado. Here's an analysis of tech layoffs in 2024
 
 
 ::: {.sourceClojure}
@@ -62,64 +66,58 @@ Without furder ado. Here's an analysis of tech layoffs in 2024
 :::
 
 
+In order to start the study, an overview of the primary dataset is shown below. Here's the first row and headers for the set provided
+
 
 ::: {.sourceClojure}
 ```clojure
-(tc/info layoffs :basic)
+(kind/table (tc/head layoffs 1))
 ```
 :::
 
 
-::: {.clay-dataset}
-./data/layoffs.csv :basic info [1 4]:
+::: {.clay-table}
 
-|              :name | :grouped? | :rows | :columns |
-|--------------------|-----------|------:|---------:|
-| ./data/layoffs.csv |     false |   999 |       12 |
-
-
-:::
-
-
-
-::: {.sourceClojure}
-```clojure
-(tc/info layoffs)
+```{=html}
+<table class="table table-hover table-responsive"><thead><tr><th>company</th><th>location-hq</th><th>#-laid-off</th><th>date</th><th>%</th><th>industry</th><th>source</th><th>list-of-employees-laid-off</th><th>stage</th><th>$-raised-(mm)</th><th>country</th><th>date-added</th></tr></thead><tbody><tr><td>Salesforce</td><td>SF Bay Area</td><td>300</td><td>2024-07-15</td><td></td><td>Sales</td><td>https://www.bloomberg.com/news/articles/2024-07-15/salesforce-cuts-about-300-jobs-in-latest-sign-of-tech-austerity</td><td></td><td>Post-IPO</td><td>65.0</td><td>United States</td><td>2024-07-15</td></tr></tbody></table>
 ```
-:::
-
-
-::: {.clay-dataset}
-./data/layoffs.csv: descriptive-stats [12 12]:
-
-|                   :col-name |          :datatype | :n-valid | :n-missing |       :min |      :mean |         :mode |       :max | :standard-deviation |       :skew |                                                                                                             :first |                                                                                                                                                                                                                          :last |
-|-----------------------------|--------------------|---------:|-----------:|------------|------------|---------------|------------|--------------------:|------------:|--------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|                    :company |            :string |      999 |          0 |            |            |        Google |            |                     |             |                                                                                                         Salesforce |                                                                                                                                                                                                                      Staffbase |
-|                :location-hq |            :string |      998 |          1 |            |            |   SF Bay Area |            |                     |             |                                                                                                        SF Bay Area |                                                                                                                                                                                                              Chemnitz,Non-U.S. |
-|                 :#-laid-off |             :int16 |      581 |        418 |      6.000 |      286.8 |               |  1.400E+04 |      8.41413512E+02 | 10.15527750 |                                                                                                                300 |                                                                                                                                                                                                                             90 |
-|                       :date | :packed-local-date |      999 |          0 | 2023-06-02 | 2023-11-21 |               | 2024-07-15 |      9.74879524E+09 |  0.25709452 |                                                                                                         2024-07-15 |                                                                                                                                                                                                                     2023-06-02 |
-|                          :% |           :float64 |      580 |        419 |    0.01000 |     0.3429 |               |      1.000 |      3.52245247E-01 |  1.12776034 |                                                                                                                    |                                                                                                                                                                                                                                |
-|                   :industry |            :string |      998 |          1 |            |            |       Finance |            |                     |             |                                                                                                              Sales |                                                                                                                                                                                                                          Other |
-|                     :source |            :string |      998 |          1 |            |            | Internal memo |            |                     |             | https://www.bloomberg.com/news/articles/2024-07-15/salesforce-cuts-about-300-jobs-in-latest-sign-of-tech-austerity | https://www.businessinsider.de/gruenderszene/technologie/entlassungswelle-trifft-chemnitzer-software-unicorn-staffbase/?tpcc=offsite_gs_linkedin-facebook&fbclid=IwAR11HXLrgoy2GqefJu9xkrAtdqlHzdyBFXw1sYqgFmUJoacmBtcZSXNxmDw |
-| :list-of-employees-laid-off |            :string |       34 |        965 |            |            |               |            |                     |             |                                                                                                                    |                                                                                                                                                                                                                                |
-|                      :stage |            :string |      999 |          0 |            |            |      Post-IPO |            |                     |             |                                                                                                           Post-IPO |                                                                                                                                                                                                                       Series E |
-|              :$-raised-(mm) |           :float64 |      870 |        129 |      1.000 |      820.9 |               |  2.720E+04 |      2.51616248E+03 |  7.04386358 |                                                                                                              65.00 |                                                                                                                                                                                                                          307.0 |
-|                    :country |            :string |      999 |          0 |            |            | United States |            |                     |             |                                                                                                      United States |                                                                                                                                                                                                                        Germany |
-|                 :date-added | :packed-local-date |      999 |          0 | 2023-01-06 | 2023-11-26 |               | 2024-07-15 |      9.81443738E+09 |  0.18584663 |                                                                                                         2024-07-15 |                                                                                                                                                                                                                     2023-06-04 |
-
 
 :::
 
 
+- Company
+- Location of the headquarters(HQ)
+- Number of people laid off
+- Date of the event
+- Industry
+- Source. Often a link from a major news outlet. This means we exclude quiet layoffs
+- List of employees laid off
+- Stage. Refers to investment stage. e,g: seed, series, IPO, etc.
+- Funding raised. Expressed in $USD in the order of millions
+- Country
+- Date added
 
-## What countries where the most affected?
+There are a lot of angles to look at this from
+
+TODO PUT OVERVIEW HERE
+TODO EXTRACT GROUPINGS TO THEIR OWN FILE
+
+
+## By country
+
+The top 3 countries that were the most affected by reported mass layoffs in tech were:
+
+- United States
+- India
+- United Kingdom
 
 
 ::: {.sourceClojure}
 ```clojure
-(def layoffs-by-country
+(defn layoffs-by [ds coll]
+  "Groups a dataset by the value of coll and adds a new column :total-layoffs which is a tcc/sum of group.#-laid-off"
   (-> layoffs
-      (tc/group-by :country)
+      (tc/group-by coll)
       (tc/aggregate {:total-layoffs (fn [ds]
                                       (-> ds
                                           :#-laid-off
@@ -132,46 +130,49 @@ Without furder ado. Here's an analysis of tech layoffs in 2024
 
 ::: {.sourceClojure}
 ```clojure
-(def plotly-layoffs-by-country
-  {:data [{
-           :x    (:$group-name layoffs-by-country)
-           :y    (:total-layoffs layoffs-by-country)
-           :type :bar
-           :marker {:size 4 :colorscale :Viridis}}]
-   :layout {
-            :xaxis {:title "Countries" :type :category}
-            :yaxis {:title "People laid off" :type :log}
-            :title "Layoffs by country"}})
+(def layoffs-by-country
+  (layoffs-by layoffs :country))
 ```
 :::
 
-
-The top 3 countries that were the most affected by reported mass layoffs in tech were:
-
-- United States
-- India
-- United Kingdom
 
 
 ::: {.sourceClojure}
 ```clojure
-(tc/head layoffs-by-country 3)
+(defn plotly-layoffs-by [ds y-axis-title title]
+  {:data [{
+           :x    (:$group-name ds)
+           :y    (:total-layoffs ds)
+           :type :bar
+           :marker {:size 4 :colorscale :Viridis}}]
+   :layout {
+            :xaxis {:title y-axis-title :type :category}
+            :yaxis {:title "People laid off" :type :log}
+            :title title}})
 ```
 :::
 
 
-::: {.clay-dataset}
-_unnamed [3 2]:
 
-|   :$group-name | :total-layoffs |
-|----------------|---------------:|
-|  United States |       110170.0 |
-|          India |        14227.0 |
-| United Kingdom |        10176.0 |
+::: {.sourceClojure}
+```clojure
+(-> layoffs-by-country
+    (tc/head 3)
+    (kind/table))
+```
+:::
 
+
+::: {.clay-table}
+
+```{=html}
+<table class="table table-hover table-responsive"><thead><tr><th>$group-name</th><th>total-layoffs</th></tr></thead><tbody><tr><td>United States</td><td>110170.0</td></tr><tr><td>India</td><td>14227.0</td></tr><tr><td>United Kingdom</td><td>10176.0</td></tr></tbody></table>
+```
 
 :::
 
+
+The recession is pretty global but an industry like tech has always been very connected the G7. Add to that the common location for back offices, nearshoring & offshoring and you get very predictable groupings
 
 The following chart has a logarithmic scale applied to it so be sure to hover on each bar to have a clear number
 of layoffs over the desired country
@@ -179,7 +180,8 @@ of layoffs over the desired country
 
 ::: {.sourceClojure}
 ```clojure
-(kind/plotly plotly-layoffs-by-country)
+(kind/plotly
+ (plotly-layoffs-by (layoffs-by layoffs :country) "Countries" "Layoffs by country"))
 ```
 :::
 
@@ -194,12 +196,105 @@ of layoffs over the desired country
 It makes perfect sense for the chart to look like this as it seems to follow a pattern where
 _the larger the tech economy, the harder the layoffs_. However this is just a hypothesis
 
-To formulate an answer to the question we first need to get a hold of an estimated size of the tech sector for each country
-There are however, a few pitfalls:
 
-- The "tech" industry may encompass different businesses from country to country
+### The larger the tech economy, the more layoffs?
+
+There are a few caveats with attempting to overlay the size of an economy, the size of it's tech sector and the volume of the country's layoffs within the tech industry:
+
+- The "tech" industry is an umbrella term. The tech industry may encompass different sub industries from country to country. Layoffs.fyi mostly has layoff data for the
+
 - There is no objective metrics for errors of measure across each entry
+
 - Layoffs can be attributed to a transnational decision. E,g: a company with an HQ in country A may opt for mass layoffs in it's office located in country B. But this study is attributing the layoffs to country B, even though the decision may come from the same company, located elsewhere.
+
+
+## Where are the HQs located, by number of layoffs?
+
+
+::: {.sourceClojure}
+```clojure
+(def layoffs-by-location-hq (layoffs-by layoffs :location-hq))
+```
+:::
+
+
+
+::: {.sourceClojure}
+```clojure
+(kind/plotly
+ (plotly-layoffs-by (tc/head layoffs-by-location-hq 50) "Location HQ" "Layoffs by location HQ"))
+```
+:::
+
+
+
+```{=html}
+<div style="height:400px;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement,
+              [{"x":["SF Bay Area","Austin","London,Non-U.S.","Seattle","Walldorf,Non-U.S.","Boston","New York City","Bengaluru,Non-U.S.","Noida,Non-U.S.","Tokyo,Non-U.S.","Los Angeles","San Diego","Norwalk","Stockholm,Non-U.S.","Tel Aviv,Non-U.S.","St. Louis","Nairobi,Non-U.S.","Chicago","Portland","Singapore,Non-U.S.","Gurugram,Non-U.S.","Miami","Waterloo,Non-U.S.","Shanghai,Non-U.S.","Cayman Islands","Raleigh","Salt Lake City","Amsterdam,Non-U.S.","Dallas","Jakarta,Non-U.S.","Pittsburgh","Denver","Montreal,Non-U.S.","Sao Paulo,Non-U.S.","Columbus","Chennai,Non-U.S.","Berlin,Non-U.S.","Phoenix","Dublin,Non-U.S.","Atlanta","Sacramento","Philadelphia","Hamburg,Non-U.S.","Sydney,Non-U.S.","Paris,Non-U.S.","New Delhi,Non-U.S.","Milwaukee","Krakow,Non-U.S.","Tallinn,Non-U.S.","Minneapolis"],"y":[39026.0,22254.0,10119.0,8653.0,8000.0,7199.0,7006.0,6918.0,4620.0,4000.0,3568.0,3363.0,3103.0,2460.0,2155.0,2084.0,1699.0,1625.0,1598.0,1445.0,1390.0,1250.0,1200.0,1070.0,1000.0,978.0,930.0,925.0,818.0,790.0,784.0,783.0,778.0,662.0,645.0,615.0,573.0,564.0,450.0,449.0,409.0,400.0,400.0,382.0,370.0,350.0,259.0,250.0,249.0,246.0],"type":"bar","marker":{"size":4,"colorscale":"Viridis"}}], {"xaxis":{"title":"Location HQ","type":"category"},"yaxis":{"title":"People laid off","type":"log"},"title":"Layoffs by location HQ"}, {});</script></div>
+```
+
+
+
+## By Industry
+
+
+::: {.sourceClojure}
+```clojure
+(def layoffs-by-industry (layoffs-by layoffs :industry))
+```
+:::
+
+
+
+::: {.sourceClojure}
+```clojure
+(tc/head layoffs-by-industry 10)
+```
+:::
+
+
+::: {.clay-dataset}
+_unnamed [10 2]:
+
+|   :$group-name | :total-layoffs |
+|----------------|---------------:|
+| Transportation |        22037.0 |
+|          Other |        19256.0 |
+|        Finance |        16818.0 |
+|         Retail |        13495.0 |
+|       Consumer |        12855.0 |
+|       Hardware |        12472.0 |
+|           Food |         9964.0 |
+| Infrastructure |         9014.0 |
+|     Healthcare |         5631.0 |
+|  Manufacturing |         5484.0 |
+
+
+:::
+
+
+
+::: {.sourceClojure}
+```clojure
+(kind/plotly
+ (plotly-layoffs-by (tc/head layoffs-by-industry 50) "Industry" "Layoffs by industry"))
+```
+:::
+
+
+
+```{=html}
+<div style="height:400px;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement,
+              [{"x":["Transportation","Other","Finance","Retail","Consumer","Hardware","Food","Infrastructure","Healthcare","Manufacturing","Travel","Education","HR","Data","Media","Crypto","Security","Energy","Support","Sales","Marketing","Logistics","Recruiting","Real Estate","Aerospace","Fitness","Product","AI","Legal",null,"https:\/\/www.calcalistech.com\/ctechnews\/article\/rysmrkfua","Construction"],"y":[22037.0,19256.0,16818.0,13495.0,12855.0,12472.0,9964.0,9014.0,5631.0,5484.0,4787.0,4459.0,4393.0,3394.0,3309.0,2852.0,2632.0,2356.0,2116.0,2015.0,1485.0,1155.0,1028.0,886.0,811.0,773.0,705.0,262.0,130.0,35.0,0.0,0.0],"type":"bar","marker":{"size":4,"colorscale":"Viridis"}}], {"xaxis":{"title":"Industry","type":"category"},"yaxis":{"title":"People laid off","type":"log"},"title":"Layoffs by industry"}, {});</script></div>
+```
+
+
+Transport, finance, retail & consumer tech were the most affected. These are industries directly affected by the wave
+of remote work too.
+
+Working from home means a worker is less likely to spend in transportation, the high street or even plain consumer tech.
+
+Finance stands out but it's an industry known for layoffs in mass. It doesn't come across as a surprise. It's a boom and bust industry.
 
 
 ```{=html}
