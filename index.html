@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A study on layoffs in tech 2024</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A study on layoffs in tech, covering 2023 and 2024</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -143,7 +143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A study on layoffs in tech 2024</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A study on layoffs in tech, covering 2023 and 2024</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -162,7 +162,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#a-study-on-layoffs-in-tech-2024" id="toc-a-study-on-layoffs-in-tech-2024" class="nav-link active" data-scroll-target="#a-study-on-layoffs-in-tech-2024"><span class="header-section-number">1</span> A study on layoffs in tech 2024</a></li>
+  <li><a href="#a-study-on-layoffs-in-tech-covering-2023-and-2024" id="toc-a-study-on-layoffs-in-tech-covering-2023-and-2024" class="nav-link active" data-scroll-target="#a-study-on-layoffs-in-tech-covering-2023-and-2024"><span class="header-section-number">1</span> A study on layoffs in tech, covering 2023 and 2024</a>
+  <ul>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology"><span class="header-section-number">1.0.1</span> Methodology</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">1.0.2</span> Results</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -205,17 +209,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            [aerial.hanami.templates <span class="at">:as</span> ht]</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="a-study-on-layoffs-in-tech-2024" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> A study on layoffs in tech 2024</h1>
+<section id="a-study-on-layoffs-in-tech-covering-2023-and-2024" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> A study on layoffs in tech, covering 2023 and 2024</h1>
 <p>Welcome reader,</p>
-<p><a href="https://layoffs.fyi/">layoffs.fyi</a> is a handy site that provides an <a href="https://www.airtable.com/">Airtable</a> view showcasing layoffs in tech. The data is mostly US based but I hope that it will grow in time</p>
-<p>This site does a small statistical exploration on the dataset provided</p>
-<p>I used a small python script to do a .pdf export which I then converted to .csv</p>
-<p>I am open to receive contributions for something better as ideally we could connect this to a CI and have it self-update every day or so.</p>
+<p><a href="https://layoffs.fyi/">layoffs.fyi</a> is a site that provides an <a href="https://www.airtable.com/">Airtable</a> showing layoffs in big tech.</p>
+<p>Big tech in this domain is anything FAANG and sub-FAANG.</p>
+<p>The data is mostly from US companies or companies overseas that do have a US headquarter.</p>
+<section id="methodology" class="level3" data-number="1.0.1">
+<h3 data-number="1.0.1" class="anchored" data-anchor-id="methodology"><span class="header-section-number">1.0.1</span> Methodology</h3>
+<p>I scraped off the airtable from layoffs.fyi onto a .csv you can find on the repo containing this study. The dataset itself is limited to the first 1,000 entries due to limitations with the scraping tool I used.</p>
+<p>The data itself, as a whole, can be made available to me such that this study self updates by way of a recurring job. But that can only be achieved if the owner of the Airtable grants me the access to.</p>
+<p>If you are one of the authors of layoffs.fyi, I’d <strong>really</strong> like to speak with you. It’s a really hard time in tech and we, as a community, need to build the monitors in place so situations like this don’t catch up to us.</p>
+<p>As for a tech stack, I decided to use a mash up between <a href="https://scicloj.github.io/">scicloj</a> + <a href="https://quarto.org/">quarto</a></p>
+</section>
+<section id="results" class="level3" data-number="1.0.2">
+<h3 data-number="1.0.2" class="anchored" data-anchor-id="results"><span class="header-section-number">1.0.2</span> Results</h3>
 <div style="background-color:grey;height:2px;width:100%;"></div>
 <div><pre><small><small>source: src/index.clj</small></small></pre></div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

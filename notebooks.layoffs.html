@@ -143,7 +143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A study on layoffs in tech 2024</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A study on layoffs in tech, covering 2023 and 2024</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -162,7 +162,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-countries-where-the-most-affected" id="toc-what-countries-where-the-most-affected" class="nav-link active" data-scroll-target="#what-countries-where-the-most-affected"><span class="header-section-number">2.1</span> What countries where the most affected?</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">3</span> Overview</a>
+  <ul>
+  <li><a href="#by-country" id="toc-by-country" class="nav-link" data-scroll-target="#by-country"><span class="header-section-number">3.1</span> By country</a>
+  <ul class="collapse">
+  <li><a href="#the-larger-the-tech-economy-the-more-layoffs" id="toc-the-larger-the-tech-economy-the-more-layoffs" class="nav-link" data-scroll-target="#the-larger-the-tech-economy-the-more-layoffs"><span class="header-section-number">3.1.1</span> The larger the tech economy, the more layoffs?</a></li>
+  </ul></li>
+  <li><a href="#where-are-the-hqs-located-by-number-of-layoffs" id="toc-where-are-the-hqs-located-by-number-of-layoffs" class="nav-link" data-scroll-target="#where-are-the-hqs-located-by-number-of-layoffs"><span class="header-section-number">3.2</span> Where are the HQs located, by number of layoffs?</a></li>
+  <li><a href="#by-industry" id="toc-by-industry" class="nav-link" data-scroll-target="#by-industry"><span class="header-section-number">3.3</span> By Industry</a></li>
+  <li><a href="#by-amount-of-funding-raised" id="toc-by-amount-of-funding-raised" class="nav-link" data-scroll-target="#by-amount-of-funding-raised"><span class="header-section-number">3.4</span> By amount of funding raised</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -208,10 +217,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   [scicloj.metamorph.ml.toydata <span class="at">:as</span> data]</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   [scicloj.kindly.v4.kind <span class="at">:as</span> kind]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>2023 and 2024 have been really hard for tech. I have scraped the data from layoffs.fyi using <a href="https://www.coupler.io/">coupler.io</a> which only limits me to the first 1,000 rows as I am using the freemium.</p>
-<p>If you happen to know the OP of layoffs.fyi please show them this study. If we had a live integration with Airtable this could become a live study where we track the pulse of layoffs in tech.</p>
-<p>I am using the <a href="https://scicloj.github.io/">scicloj</a> stack for this study.</p>
-<p>Without furder ado. Here’s an analysis of tech layoffs in 2024</p>
+<p>2023 and 2024 have been hard for tech. I have scraped the layoff data from layoffs.fyi using <a href="https://www.coupler.io/">coupler.io</a>.</p>
+<p>I am currently limited to the first 1,000 rows but I hope that will change once I gain a few donors for the project.</p>
+<p>If you know the author of <a href="https://layoffs.fyi">layoffs.fyi</a> please pass them the study. A live integration with Airtable we could essentially have a live monitor for layoffs in tech globally. A first of it’s kind.</p>
+<p>Without further ado. Here’s an analysis of tech layoffs in 2024</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> to-kebab-case </span>[s]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"replaces whitespaces in a string for the character </span><span class="sc">\"</span><span class="st">-</span><span class="sc">\"</span><span class="st"> lowercases the entire string"</span></span>
@@ -224,262 +233,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> <span class="st">"./data/layoffs.csv"</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>      (tc/dataset {<span class="at">:key-fn</span> (<span class="kw">comp</span> <span class="kw">keyword</span> to-kebab-case)})))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>What type of information is available? Here’s a list of the information currently available on layoffs.fyi</p>
 <div class="sourceClojure">
-<div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(tc/info layoffs <span class="at">:basic</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(kind/table (tc/head layoffs <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="clay-dataset">
-<p>./data/layoffs.csv :basic info [1 4]:</p>
-<table class="table">
+<div class="clay-table">
+<div>
+<div class="table-responsive">
+<table class="table table-hover" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th>:name</th>
-<th>:grouped?</th>
-<th style="text-align: right;">:rows</th>
-<th style="text-align: right;">:columns</th>
+<th data-quarto-table-cell-role="th">company</th>
+<th data-quarto-table-cell-role="th">location-hq</th>
+<th data-quarto-table-cell-role="th">#-laid-off</th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">%</th>
+<th data-quarto-table-cell-role="th">industry</th>
+<th data-quarto-table-cell-role="th">source</th>
+<th data-quarto-table-cell-role="th">list-of-employees-laid-off</th>
+<th data-quarto-table-cell-role="th">stage</th>
+<th data-quarto-table-cell-role="th">$-raised-mm</th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">date-added</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>./data/layoffs.csv</td>
-<td>false</td>
-<td style="text-align: right;">999</td>
-<td style="text-align: right;">12</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sourceClojure">
-<div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(tc/info layoffs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="clay-dataset">
-<p>./data/layoffs.csv: descriptive-stats [12 12]:</p>
-<table class="table">
-<colgroup>
-<col style="width: 5%">
-<col style="width: 4%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 2%">
-<col style="width: 4%">
-<col style="width: 2%">
-<col style="width: 23%">
-<col style="width: 45%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>:col-name</th>
-<th>:datatype</th>
-<th style="text-align: right;">:n-valid</th>
-<th style="text-align: right;">:n-missing</th>
-<th>:min</th>
-<th>:mean</th>
-<th>:mode</th>
-<th>:max</th>
-<th style="text-align: right;">:standard-deviation</th>
-<th style="text-align: right;">:skew</th>
-<th>:first</th>
-<th>:last</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>:company</td>
-<td>:string</td>
-<td style="text-align: right;">999</td>
-<td style="text-align: right;">0</td>
-<td></td>
-<td></td>
-<td>Google</td>
-<td></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
 <td>Salesforce</td>
-<td>Staffbase</td>
-</tr>
-<tr class="even">
-<td>:location-hq</td>
-<td>:string</td>
-<td style="text-align: right;">998</td>
-<td style="text-align: right;">1</td>
-<td></td>
-<td></td>
 <td>SF Bay Area</td>
-<td></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td>SF Bay Area</td>
-<td>Chemnitz,Non-U.S.</td>
-</tr>
-<tr class="odd">
-<td>:#-laid-off</td>
-<td>:int16</td>
-<td style="text-align: right;">581</td>
-<td style="text-align: right;">418</td>
-<td>6.000</td>
-<td>286.8</td>
-<td></td>
-<td>1.400E+04</td>
-<td style="text-align: right;">8.41413512E+02</td>
-<td style="text-align: right;">10.15527750</td>
 <td>300</td>
-<td>90</td>
-</tr>
-<tr class="even">
-<td>:date</td>
-<td>:packed-local-date</td>
-<td style="text-align: right;">999</td>
-<td style="text-align: right;">0</td>
-<td>2023-06-02</td>
-<td>2023-11-21</td>
-<td></td>
 <td>2024-07-15</td>
-<td style="text-align: right;">9.74879524E+09</td>
-<td style="text-align: right;">0.25709452</td>
-<td>2024-07-15</td>
-<td>2023-06-02</td>
-</tr>
-<tr class="odd">
-<td>:%</td>
-<td>:float64</td>
-<td style="text-align: right;">580</td>
-<td style="text-align: right;">419</td>
-<td>0.01000</td>
-<td>0.3429</td>
 <td></td>
-<td>1.000</td>
-<td style="text-align: right;">3.52245247E-01</td>
-<td style="text-align: right;">1.12776034</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>:industry</td>
-<td>:string</td>
-<td style="text-align: right;">998</td>
-<td style="text-align: right;">1</td>
-<td></td>
-<td></td>
-<td>Finance</td>
-<td></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
 <td>Sales</td>
-<td>Other</td>
-</tr>
-<tr class="odd">
-<td>:source</td>
-<td>:string</td>
-<td style="text-align: right;">998</td>
-<td style="text-align: right;">1</td>
-<td></td>
-<td></td>
-<td>Internal memo</td>
-<td></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
 <td>https://www.bloomberg.com/news/articles/2024-07-15/salesforce-cuts-about-300-jobs-in-latest-sign-of-tech-austerity</td>
-<td>https://www.businessinsider.de/gruenderszene/technologie/entlassungswelle-trifft-chemnitzer-software-unicorn-staffbase/?tpcc=offsite_gs_linkedin-facebook&amp;fbclid=IwAR11HXLrgoy2GqefJu9xkrAtdqlHzdyBFXw1sYqgFmUJoacmBtcZSXNxmDw</td>
-</tr>
-<tr class="even">
-<td>:list-of-employees-laid-off</td>
-<td>:string</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">965</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>:stage</td>
-<td>:string</td>
-<td style="text-align: right;">999</td>
-<td style="text-align: right;">0</td>
-<td></td>
 <td></td>
 <td>Post-IPO</td>
-<td></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td>Post-IPO</td>
-<td>Series E</td>
-</tr>
-<tr class="even">
-<td>:$-raised-(mm)</td>
-<td>:float64</td>
-<td style="text-align: right;">870</td>
-<td style="text-align: right;">129</td>
-<td>1.000</td>
-<td>820.9</td>
-<td></td>
-<td>2.720E+04</td>
-<td style="text-align: right;">2.51616248E+03</td>
-<td style="text-align: right;">7.04386358</td>
-<td>65.00</td>
-<td>307.0</td>
-</tr>
-<tr class="odd">
-<td>:country</td>
-<td>:string</td>
-<td style="text-align: right;">999</td>
-<td style="text-align: right;">0</td>
-<td></td>
-<td></td>
+<td>65.0</td>
 <td>United States</td>
-<td></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td>United States</td>
-<td>Germany</td>
-</tr>
-<tr class="even">
-<td>:date-added</td>
-<td>:packed-local-date</td>
-<td style="text-align: right;">999</td>
-<td style="text-align: right;">0</td>
-<td>2023-01-06</td>
-<td>2023-11-26</td>
-<td></td>
 <td>2024-07-15</td>
-<td style="text-align: right;">9.81443738E+09</td>
-<td style="text-align: right;">0.18584663</td>
-<td>2024-07-15</td>
-<td>2023-06-04</td>
 </tr>
 </tbody>
 </table>
 </div>
-<section id="what-countries-where-the-most-affected" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="what-countries-where-the-most-affected"><span class="header-section-number">2.1</span> What countries where the most affected?</h2>
-<div class="sourceClojure">
-<div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> layoffs-by-country</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> layoffs</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>      (tc/group-by <span class="at">:country</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      (tc/aggregate {<span class="at">:total-layoffs</span> (<span class="kw">fn</span> [ds]</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                                      (<span class="kw">-&gt;</span> ds</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">:#</span>-laid-off</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                                          tcc/sum))})</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      (tc/order-by <span class="at">:total-layoffs</span> <span class="at">:desc</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceClojure">
-<div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> plotly-layoffs-by-country</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:data</span> [{</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">:x</span>    (:$group-name layoffs-by-country)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">:y</span>    (<span class="at">:total-layoffs</span> layoffs-by-country)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">:type</span> <span class="at">:bar</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">:marker</span> {<span class="at">:size</span> <span class="dv">4</span> <span class="at">:colorscale</span> <span class="at">:Viridis</span>}}]</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">:layout</span> {</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">:xaxis</span> {<span class="at">:title</span> <span class="st">"Countries"</span> <span class="at">:type</span> <span class="at">:category</span>}</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">:yaxis</span> {<span class="at">:title</span> <span class="st">"People laid off"</span> <span class="at">:type</span> <span class="at">:log</span>}</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">:title</span> <span class="st">"Layoffs by country"</span>}})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ul>
+<li>Company</li>
+<li>Location of the headquarters(HQ)</li>
+<li>Number of people laid off</li>
+<li>Date of the event</li>
+<li>Industry</li>
+<li>Source. Often a link from a major news outlet. This means we exclude quiet layoffs</li>
+<li>List of employees laid off</li>
+<li>Stage. Refers to investment stage. e,g: seed, series, IPO, etc.</li>
+<li>Funding raised. Expressed in $USD in the order of millions</li>
+<li>Country</li>
+<li>Date added</li>
+</ul>
+<section id="overview" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Overview</h1>
+<p>This study is fairly simple. The number of layoffs is going to grouped by other criteria exposed in the dataset such as country, HQ, industry, funding</p>
+<p>If the study gains enough traction there’s a list of additions worth exploring, such as:</p>
+<ul>
+<li><label><input type="checkbox">Join the dataset by country with a dataset from <a href="https://www.imf.org/en/Data">IMF</a> to gain access to inflation rate, GDP, overall unemployment, AI readiness, etc.</label></li>
+<li>Richer data visualisations using <a href="https://github.com/jsa-aerial/hanami">Hanami</a></li>
+<li><label><input type="checkbox">Live integration with Airtable so the data self-updates and we have a living, breathing monitor of layoffs in tech</label></li>
+<li><label><input type="checkbox">Machine learning applications to predict what industry comes next. We’d need a whole bunch of data for this</label></li>
+<li><label><input type="checkbox">Join the dataset by a company’s lead set of investors</label></li>
+<li><label><input type="checkbox">Have a dataset of investors. Perhaps there’s an overlap between lead investors, industry &amp; layoff frequency?</label></li>
+</ul>
+<section id="by-country" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="by-country"><span class="header-section-number">3.1</span> By country</h2>
 <p>The top 3 countries that were the most affected by reported mass layoffs in tech were:</p>
 <ul>
 <li>United States</li>
@@ -487,10 +311,106 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>United Kingdom</li>
 </ul>
 <div class="sourceClojure">
-<div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(tc/head layoffs-by-country <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> layoffs-by </span>[ds coll]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Groups a dataset by the value of coll and adds a new column :total-layoffs which is a tcc/sum of group.#-laid-off"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> layoffs</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      (tc/group-by coll)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      (tc/aggregate {<span class="at">:total-layoffs</span> (<span class="kw">fn</span> [ds]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                                      (<span class="kw">-&gt;</span> ds</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">:#</span>-laid-off</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                                          tcc/sum))})</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      (tc/order-by <span class="at">:total-layoffs</span> <span class="at">:desc</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> layoffs-by-country</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  (layoffs-by layoffs <span class="at">:country</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb7"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> plotly-layoffs-by </span>[ds y-axis-title title]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:data</span> [{</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">:x</span>    (:$group-name ds)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">:y</span>    (<span class="at">:total-layoffs</span> ds)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">:type</span> <span class="at">:bar</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">:marker</span> {<span class="at">:size</span> <span class="dv">4</span> <span class="at">:colorscale</span> <span class="at">:Viridis</span>}}]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">:layout</span> {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">:xaxis</span> {<span class="at">:title</span> y-axis-title <span class="at">:type</span> <span class="at">:category</span>}</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">:yaxis</span> {<span class="at">:title</span> <span class="st">"People laid off"</span> <span class="at">:type</span> <span class="at">:log</span>}</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">:title</span> title}})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> layoffs-by-country</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    (tc/head <span class="dv">3</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    (kind/table))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="clay-table">
+<div>
+<div class="table-responsive">
+<table class="table table-hover" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">$group-name</th>
+<th data-quarto-table-cell-role="th">total-layoffs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>United States</td>
+<td>110170.0</td>
+</tr>
+<tr class="even">
+<td>India</td>
+<td>14227.0</td>
+</tr>
+<tr class="odd">
+<td>United Kingdom</td>
+<td>10176.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>The recession is pretty global but an industry like tech has always been very connected the G7. Add to that the common location for back offices, nearshoring &amp; offshoring and you get very predictable groupings</p>
+<p>The following chart has a logarithmic scale applied to it so be sure to hover on each bar to have a clear number of layoffs over the desired country</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(kind/plotly</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a> (plotly-layoffs-by (layoffs-by layoffs <span class="at">:country</span>) <span class="st">"Countries"</span> <span class="st">"Layoffs by country"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="height:400px;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement,
+              [{"x":["United States","India","United Kingdom","Germany","Japan","Canada","Israel","Sweden","Kenya","Singapore","China","Cayman Islands","Netherlands","Indonesia","Brazil","Australia","Norway","Ireland","France","Czech Republic","Poland","Estonia","Chile","New Zealand","Nigeria","Ghana","Uruguay","Austria","Denmark","Spain","Finland","Belgium","South Korea","Romania","Lithuania","Hong Kong","Pakistan","Luxembourg","Mexico","Switzerland"],"y":[110170.0,14227.0,10176.0,9363.0,4000.0,2375.0,2373.0,2340.0,1699.0,1445.0,1085.0,1060.0,925.0,790.0,744.0,472.0,465.0,435.0,370.0,316.0,295.0,249.0,200.0,200.0,163.0,150.0,104.0,100.0,79.0,74.0,70.0,50.0,45.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"type":"bar","marker":{"size":4,"colorscale":"Viridis"}}], {"xaxis":{"title":"Countries","type":"category"},"yaxis":{"title":"People laid off","type":"log"},"title":"Layoffs by country"}, {});</script></div>
+<p>It makes perfect sense for the chart to look like this as it seems to follow a pattern where <em>the larger the tech economy, the harder the layoffs</em>. However this is just a hypothesis</p>
+<section id="the-larger-the-tech-economy-the-more-layoffs" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="the-larger-the-tech-economy-the-more-layoffs"><span class="header-section-number">3.1.1</span> The larger the tech economy, the more layoffs?</h3>
+<p>There are a few caveats with attempting to overlay the size of an economy, the size of it’s tech sector and the volume of the country’s layoffs within the tech industry:</p>
+<ul>
+<li><p>The “tech” industry is an umbrella term. The tech industry may encompass different sub industries from country to country. Layoffs.fyi mostly has layoff data for the</p></li>
+<li><p>There is no objective metrics for errors of measure across each entry</p></li>
+<li><p>Layoffs can be attributed to a transnational decision. E,g: a company with an HQ in country A may opt for mass layoffs in it’s office located in country B. But this study is attributing the layoffs to country B, even though the decision may come from the same company, located elsewhere.</p></li>
+</ul>
+</section>
+</section>
+<section id="where-are-the-hqs-located-by-number-of-layoffs" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="where-are-the-hqs-located-by-number-of-layoffs"><span class="header-section-number">3.2</span> Where are the HQs located, by number of layoffs?</h2>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> layoffs-by-location-hq </span>(layoffs-by layoffs <span class="at">:location-hq</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb11"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(kind/plotly</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a> (plotly-layoffs-by (tc/head layoffs-by-location-hq <span class="dv">50</span>) <span class="st">"Location HQ"</span> <span class="st">"Layoffs by location HQ"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="height:400px;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement,
+              [{"x":["SF Bay Area","Austin","London,Non-U.S.","Seattle","Walldorf,Non-U.S.","Boston","New York City","Bengaluru,Non-U.S.","Noida,Non-U.S.","Tokyo,Non-U.S.","Los Angeles","San Diego","Norwalk","Stockholm,Non-U.S.","Tel Aviv,Non-U.S.","St. Louis","Nairobi,Non-U.S.","Chicago","Portland","Singapore,Non-U.S.","Gurugram,Non-U.S.","Miami","Waterloo,Non-U.S.","Shanghai,Non-U.S.","Cayman Islands","Raleigh","Salt Lake City","Amsterdam,Non-U.S.","Dallas","Jakarta,Non-U.S.","Pittsburgh","Denver","Montreal,Non-U.S.","Sao Paulo,Non-U.S.","Columbus","Chennai,Non-U.S.","Berlin,Non-U.S.","Phoenix","Dublin,Non-U.S.","Atlanta","Sacramento","Philadelphia","Hamburg,Non-U.S.","Sydney,Non-U.S.","Paris,Non-U.S.","New Delhi,Non-U.S.","Milwaukee","Krakow,Non-U.S.","Tallinn,Non-U.S.","Minneapolis"],"y":[39026.0,22254.0,10119.0,8653.0,8000.0,7199.0,7006.0,6918.0,4620.0,4000.0,3568.0,3363.0,3103.0,2460.0,2155.0,2084.0,1699.0,1625.0,1598.0,1445.0,1390.0,1250.0,1200.0,1070.0,1000.0,978.0,930.0,925.0,818.0,790.0,784.0,783.0,778.0,662.0,645.0,615.0,573.0,564.0,450.0,449.0,409.0,400.0,400.0,382.0,370.0,350.0,259.0,250.0,249.0,246.0],"type":"bar","marker":{"size":4,"colorscale":"Viridis"}}], {"xaxis":{"title":"Location HQ","type":"category"},"yaxis":{"title":"People laid off","type":"log"},"title":"Layoffs by location HQ"}, {});</script></div>
+</section>
+<section id="by-industry" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="by-industry"><span class="header-section-number">3.3</span> By Industry</h2>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb12"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> layoffs-by-industry </span>(layoffs-by layoffs <span class="at">:industry</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(tc/head layoffs-by-industry <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="clay-dataset">
-<p>_unnamed [3 2]:</p>
+<p>_unnamed [10 2]:</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -500,37 +420,81 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>United States</td>
-<td style="text-align: right;">110170.0</td>
+<td>Transportation</td>
+<td style="text-align: right;">22037.0</td>
 </tr>
 <tr class="even">
-<td>India</td>
-<td style="text-align: right;">14227.0</td>
+<td>Other</td>
+<td style="text-align: right;">19256.0</td>
 </tr>
 <tr class="odd">
-<td>United Kingdom</td>
-<td style="text-align: right;">10176.0</td>
+<td>Finance</td>
+<td style="text-align: right;">16818.0</td>
+</tr>
+<tr class="even">
+<td>Retail</td>
+<td style="text-align: right;">13495.0</td>
+</tr>
+<tr class="odd">
+<td>Consumer</td>
+<td style="text-align: right;">12855.0</td>
+</tr>
+<tr class="even">
+<td>Hardware</td>
+<td style="text-align: right;">12472.0</td>
+</tr>
+<tr class="odd">
+<td>Food</td>
+<td style="text-align: right;">9964.0</td>
+</tr>
+<tr class="even">
+<td>Infrastructure</td>
+<td style="text-align: right;">9014.0</td>
+</tr>
+<tr class="odd">
+<td>Healthcare</td>
+<td style="text-align: right;">5631.0</td>
+</tr>
+<tr class="even">
+<td>Manufacturing</td>
+<td style="text-align: right;">5484.0</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>The following chart has a logarithmic scale applied to it so be sure to hover on each bar to have a clear number of layoffs over the desired country</p>
 <div class="sourceClojure">
-<div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(kind/plotly plotly-layoffs-by-country)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(kind/plotly</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a> (plotly-layoffs-by (tc/head layoffs-by-industry <span class="dv">50</span>) <span class="st">"Industry"</span> <span class="st">"Layoffs by industry"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div style="height:400px;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement,
-              [{"x":["United States","India","United Kingdom","Germany","Japan","Canada","Israel","Sweden","Kenya","Singapore","China","Cayman Islands","Netherlands","Indonesia","Brazil","Australia","Norway","Ireland","France","Czech Republic","Poland","Estonia","Chile","New Zealand","Nigeria","Ghana","Uruguay","Austria","Denmark","Spain","Finland","Belgium","South Korea","Romania","Lithuania","Hong Kong","Pakistan","Luxembourg","Mexico","Switzerland"],"y":[110170.0,14227.0,10176.0,9363.0,4000.0,2375.0,2373.0,2340.0,1699.0,1445.0,1085.0,1060.0,925.0,790.0,744.0,472.0,465.0,435.0,370.0,316.0,295.0,249.0,200.0,200.0,163.0,150.0,104.0,100.0,79.0,74.0,70.0,50.0,45.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"type":"bar","marker":{"size":4,"colorscale":"Viridis"}}], {"xaxis":{"title":"Countries","type":"category"},"yaxis":{"title":"People laid off","type":"log"},"title":"Layoffs by country"}, {});</script></div>
-<p>It makes perfect sense for the chart to look like this as it seems to follow a pattern where <em>the larger the tech economy, the harder the layoffs</em>. However this is just a hypothesis</p>
-<p>To formulate an answer to the question we first need to get a hold of an estimated size of the tech sector for each country There are however, a few pitfalls:</p>
-<ul>
-<li>The “tech” industry may encompass different businesses from country to country</li>
-<li>There is no objective metrics for errors of measure across each entry</li>
-<li>Layoffs can be attributed to a transnational decision. E,g: a company with an HQ in country A may opt for mass layoffs in it’s office located in country B. But this study is attributing the layoffs to country B, even though the decision may come from the same company, located elsewhere.</li>
-</ul>
+              [{"x":["Transportation","Other","Finance","Retail","Consumer","Hardware","Food","Infrastructure","Healthcare","Manufacturing","Travel","Education","HR","Data","Media","Crypto","Security","Energy","Support","Sales","Marketing","Logistics","Recruiting","Real Estate","Aerospace","Fitness","Product","AI","Legal",null,"https:\/\/www.calcalistech.com\/ctechnews\/article\/rysmrkfua","Construction"],"y":[22037.0,19256.0,16818.0,13495.0,12855.0,12472.0,9964.0,9014.0,5631.0,5484.0,4787.0,4459.0,4393.0,3394.0,3309.0,2852.0,2632.0,2356.0,2116.0,2015.0,1485.0,1155.0,1028.0,886.0,811.0,773.0,705.0,262.0,130.0,35.0,0.0,0.0],"type":"bar","marker":{"size":4,"colorscale":"Viridis"}}], {"xaxis":{"title":"Industry","type":"category"},"yaxis":{"title":"People laid off","type":"log"},"title":"Layoffs by industry"}, {});</script></div>
+<p>Transport, finance, retail &amp; consumer tech were the most affected. These are industries directly affected by the wave of remote work too.</p>
+<p>Working from home means a worker is less likely to spend in transportation, the high street or even plain consumer tech.</p>
+<p>Finance stands out but it’s an industry known for layoffs in mass. It doesn’t come across as a surprise. It’s a boom and bust industry.</p>
+</section>
+<section id="by-amount-of-funding-raised" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="by-amount-of-funding-raised"><span class="header-section-number">3.4</span> By amount of funding raised</h2>
+<p>TODO How to take the dataset and add a new column where the cell values are a valid range for the amount of funding a company may have</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(kind/plotly</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a> {<span class="at">:data</span> [{</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">:x</span>    (:$-raised-mm layoffs)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">:y</span>    (<span class="at">:total-layoffs</span> layoffs)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">:nbinsx</span> <span class="dv">50</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">:type</span> <span class="at">:bar</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">:marker</span> {<span class="at">:size</span> <span class="dv">4</span> <span class="at">:colorscale</span> <span class="at">:Viridis</span>}}]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">:layout</span> {</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">:xaxis</span> {<span class="at">:title</span> <span class="st">"Amount of funding"</span> <span class="at">:type</span> <span class="at">:category</span>}</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">:yaxis</span> {<span class="at">:title</span> <span class="st">"People laid off"</span>}</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">:title</span> <span class="st">"Layoffs by funding"</span>}})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="height:400px;width:100%;"><script>Plotly.newPlot(document.currentScript.parentElement,
+              [{"x":[65.0,18.0,null,2000.0,null,1100.0,1.0,838.0,51.0,335.0,598.0,61.0,17.0,974.0,77.0,105.0,574.0,124.0,1200.0,76.0,null,509.0,1600.0,1300.0,1600.0,769.0,54.0,null,131.0,400.0,216.0,770.0,537.0,1700.0,227.0,396.0,170.0,34.0,83.0,54.0,424.0,54.0,5900.0,9400.0,543.0,39.0,95.0,null,null,1.0,103.0,214.0,72.0,691.0,2000.0,119.0,651.0,117.0,1.0,86.0,26.0,67.0,118.0,32.0,3.0,null,56.0,1700.0,746.0,8300.0,424.0,390.0,643.0,899.0,272.0,null,38.0,null,1300.0,222.0,3400.0,39.0,null,214.0,49.0,3.0,5.0,null,10700.0,26.0,834.0,124.0,null,72.0,null,64.0,79.0,1000.0,516.0,899.0,10700.0,780.0,429.0,932.0,1900.0,601.0,26.0,null,38.0,20200.0,30.0,271.0,26.0,1800.0,5000.0,974.0,6.0,1700.0,130.0,158.0,145.0,3300.0,1400.0,null,299.0,802.0,35.0,180.0,159.0,174.0,400.0,1.0,26.0,10700.0,4100.0,75.0,20200.0,61.0,1200.0,null,336.0,826.0,89.0,32.0,55.0,679.0,12.0,null,49.0,null,24.0,1200.0,179.0,1200.0,247.0,60.0,108.0,null,547.0,214.0,24.0,5500.0,104.0,2.0,109.0,52.0,5.0,230.0,64.0,79.0,288.0,null,3500.0,750.0,355.0,null,50.0,176.0,null,399.0,302.0,16.0,33.0,42.0,480.0,86.0,null,null,44.0,39.0,null,147.0,739.0,26000.0,105.0,1100.0,966.0,569.0,462.0,504.0,390.0,null,177.0,118.0,175.0,1700.0,79.0,2.0,834.0,86.0,71.0,null,null,313.0,676.0,1200.0,3300.0,363.0,null,315.0,522.0,1600.0,1500.0,30.0,696.0,10700.0,8.0,5.0,null,3.0,274.0,1700.0,515.0,962.0,839.0,312.0,118.0,10.0,303.0,2.0,16.0,181.0,2900.0,315.0,2.3,137.0,229.0,15.0,null,37.0,525.0,490.0,20.0,188.0,529.0,247.0,948.0,31.0,400.0,1000.0,565.0,3.0,536.0,108.0,133.0,4900.0,119.0,119.0,361.0,13.0,18.0,4.0,218.0,619.0,899.0,234.0,74.0,10.0,41.0,1200.0,276.0,28.0,451.0,1200.0,885.0,152.0,315.0,26.0,547.0,null,647.0,216.0,150.0,107.0,523.0,117.0,null,657.0,654.0,null,30.0,733.0,263.0,65.0,2400.0,null,1.0,3600.0,299.0,187.0,27.0,56.0,null,332.0,635.0,724.0,275.0,3700.0,811.0,100.0,1300.0,1200.0,1300.0,1500.0,625.0,686.0,2.0,28.0,21.0,534.0,null,426.0,26.0,534.0,155.0,1700.0,108.0,153.0,79.0,11.0,null,183.0,9.0,null,26.0,3.0,500.0,28.0,null,41.0,82.0,216.0,null,null,995.0,320.0,14.0,131.0,274.0,332.0,null,194.0,140.0,null,20.0,26.0,null,280.0,168.0,57.0,108.0,1400.0,3000.0,35.0,229.0,556.0,197.0,2700.0,526.0,14.0,230.0,null,91.0,null,1300.0,12900.0,470.0,263.0,138.0,164.0,5.0,91.0,108.0,485.0,12.0,826.0,899.0,123.0,199.0,356.0,456.0,27200.0,7200.0,632.0,26.0,null,24.0,null,null,12.0,368.0,628.0,1700.0,733.0,52.0,116.0,1500.0,1800.0,null,9900.0,1200.0,133.0,22.0,262.0,15000.0,385.0,1300.0,null,76.0,310.0,25.0,2500.0,97.0,null,234.0,null,241.0,172.0,null,302.0,110.0,694.0,32.0,194.0,247.0,76.0,10700.0,214.0,2200.0,null,120.0,2200.0,35.0,280.0,350.0,477.0,3.0,6.0,2100.0,648.0,185.0,6.0,614.0,null,52.0,700.0,689.0,100.0,90.0,307.0,1300.0,1100.0,414.0,646.0,393.0,9400.0,390.0,597.0,6.0,16.0,214.0,79.0,19.0,228.0,167.0,100.0,null,108.0,null,40.0,null,1700.0,10.0,223.0,455.2,91.0,331.0,347.0,176.0,null,451.0,316.0,null,245.0,347.0,128.0,108.0,3.0,626.0,1100.0,1900.0,7.0,4900.0,108.0,224.0,1300.0,26.0,766.0,97.0,736.0,151.0,640.0,35.0,null,62.0,null,7200.0,427.0,366.0,122.0,200.0,472.0,84.0,null,2400.0,1700.0,106.0,856.0,null,153.0,116.0,1300.0,null,453.0,null,null,391.0,414.0,76.0,365.0,1.0,65.0,null,null,218.0,67.0,218.0,1100.0,32.0,951.0,16.0,705.0,26.0,64.0,38.0,null,9.0,391.0,3300.0,5500.0,154.0,112.0,537.0,229.0,null,153.0,null,61.0,2400.0,null,null,392.0,272.0,86.0,658.0,727.0,79.0,522.0,167.0,null,null,null,39.0,54.0,42.0,86.0,504.0,450.0,516.0,315.0,8.0,null,629.0,577.0,400.0,730.0,916.0,150.0,26000.0,null,152.0,35.0,536.0,50.0,70.0,428.0,127.0,123.0,1700.0,5.0,178.0,6400.0,75.0,426.0,null,4900.0,137.0,458.0,263.0,497.0,170.0,465.0,51.0,857.0,749.0,14.0,390.0,null,5600.0,4.0,489.0,null,10.0,2.0,7.0,438.0,131.0,30.0,1400.0,817.0,456.0,112.0,26.0,301.0,224.0,null,389.0,71.0,296.0,42.0,468.0,180.0,94.0,null,928.0,224.0,1400.0,46.0,107.0,67.0,208.0,125.0,905.0,167.0,31.0,null,238.0,40.0,150.0,90.0,11.0,149.0,187.0,304.0,3.0,null,null,464.0,80.0,3300.0,null,198.0,10.0,14.0,217.0,1.0,14.0,null,2000.0,301.0,4.0,2600.0,103.0,121.0,89.0,4.0,88.0,220.0,192.0,220.0,null,54.0,null,1800.0,247.0,72.0,33.0,154.0,55.0,196.0,157.0,null,null,42.0,77.0,72.0,28.0,30.0,12.0,111.0,315.0,297.0,534.0,5.0,83.0,null,null,null,180.0,50.0,672.0,261.0,null,665.0,770.0,1200.0,2.0,925.0,419.0,null,40.0,748.0,89.0,375.0,82.0,1100.0,75.0,26.0,null,38.0,107.0,null,234.0,300.0,3.0,995.0,5.0,88.0,43.0,null,513.0,435.0,567.0,274.0,148.0,105.0,65.0,42.0,12.0,2.0,135.0,159.0,19.0,3.0,110.0,574.0,389.0,57.0,17.0,1200.0,387.0,489.0,89.0,12.0,149.0,200.0,188.0,46.0,188.0,187.0,39.0,1600.0,149.0,9.0,569.0,11.0,463.0,103.0,1500.0,351.0,516.0,17.0,9.0,322.0,192.0,692.0,37.0,182.0,255.0,1.0,null,null,382.0,null,87.0,null,111.0,179.0,32.0,422.0,1.0,165.0,91.0,316.0,137.0,39.0,null,56.0,null,33.0,659.0,17.0,108.0,91.0,154.0,2700.0,256.0,null,220.0,1900.0,282.0,138.0,212.0,null,79.0,null,20.0,118.0,1100.0,99.0,357.0,3300.0,363.0,409.0,53.0,274.0,313.0,530.0,17.0,131.0,504.0,17.0,171.0,342.0,567.0,null,290.0,12.0,35.0,null,1400.0,711.0,null,156.0,50.0,160.0,106.0,90.0,47.0,null,8.0,896.0,24.0,null,607.0,704.0,770.0,216.0,100.0,138.0,null,65.0,null,445.0,19.0,8700.0,18.0,537.0,1.0,169.0,81.0,414.0,1.0,612.0,214.0,181.0,85.0,null,625.0,263.0,1100.0,67.0,null,5600.0,1100.0,38.0,197.0,141.0,300.0,25200.0,148.0,134.0,306.0,28.0,69.0,16500.0,null,686.0,13.0,88.0,2.0,80.0,24.0,3300.0,null,116.0,4.0,194.0,51.0,null,null,null,17.0,84.0,455.2,340.0,184.0,111.0,50.0,900.0,119.0,468.0,284.0,529.0,469.0,227.0,4.0,253.0,null,40.0,1100.0,288.0,229.0,891.0,644.0,805.0,484.0,7.0,5500.0,4100.0,340.0,324.0,905.0,349.0,233.0,null,462.0,1300.0,165.0,364.0,1300.0,23.0,null,2100.0,19.0,310.0,274.0,7.0,307.0],"y":null,"nbinsx":50,"type":"bar","marker":{"size":4,"colorscale":"Viridis"}}], {"xaxis":{"title":"Amount of funding","type":"category"},"yaxis":{"title":"People laid off"},"title":"Layoffs by funding"}, {});</script></div>
 <div style="background-color:grey;height:2px;width:100%;"></div>
 <div><pre><small><small>source: src/notebooks/layoffs.clj</small></small></pre></div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -945,8 +909,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="A study on layoffs in tech 2024">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A study on layoffs in tech 2024</span></span>
+      <a href="./index.html" class="pagination-link" aria-label="A study on layoffs in tech, covering 2023 and 2024">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A study on layoffs in tech, covering 2023 and 2024</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
