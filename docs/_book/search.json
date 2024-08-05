@@ -4,9 +4,9 @@
     "href": "index.html",
     "title": "Studying layoffs in tech in 2024",
     "section": "",
-    "text": "(ns index\n  (:require [tablecloth.api :as tc]\n            [scicloj.noj.v1.vis.hanami :as hanami]\n            [aerial.hanami.templates :as ht]\n            [scicloj.kindly.v4.kind :as kind]))\n\n\n1 A study on layoffs in tech 2024\nWelcome reader,\nlayoffs.fyi is a handy site that provides an Airtable view showcasing layoffs in tech. The data is mostly US based but I hope that it will grow in time\nThis site does a small statistical exploration on the dataset provided\nI used a small python script to do a .pdf export which I then converted to .csv\nI am open to receive contributions for something better as ideally we could connect this to a CI and have it self-update every day or so.\n\nsource: src/index.clj",
+    "text": "(ns index\n  (:require [tablecloth.api :as tc]\n            [scicloj.noj.v1.vis.hanami :as hanami]\n            [aerial.hanami.templates :as ht]\n            [scicloj.kindly.v4.kind :as kind]))\n\n\n1 A study on layoffs in tech, covering 2023 and 2024\nWelcome reader,\nlayoffs.fyi is a site that provides an Airtable showing layoffs in big tech.\nBig tech in this domain is anything FAANG and sub-FAANG.\nThe data is mostly from US companies or companies overseas that do have a US headquarter.\n\n1.0.1 Methodology\nI scraped off the airtable from layoffs.fyi onto a .csv you can find on the repo containing this study. The dataset itself is limited to the first 1,000 entries due to limitations with the scraping tool I used.\nThe data itself, as a whole, can be made available to me such that this study self updates by way of a recurring job. But that can only be achieved if the owner of the Airtable grants me the access to.\nIf you are one of the authors of layoffs.fyi, I’d really like to speak with you. It’s a really hard time in tech and we, as a community, need to build the monitors in place so situations like this don’t catch up to us.\nAs for a tech stack, I decided to use a mash up between scicloj + quarto\n\n\n1.0.2 Results\n\nsource: src/index.clj",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>A study on layoffs in tech 2024</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>A study on layoffs in tech, covering 2023 and 2024</span>"
     ]
   },
   {
@@ -14,17 +14,7 @@
     "href": "notebooks.layoffs.html",
     "title": "2  Layoffs in 2024",
     "section": "",
-    "text": "2.1 By country\nThe top 3 countries that were the most affected by reported mass layoffs in tech were:\nThe recession is pretty global but an industry like tech has always been very connected the G7. Add to that the common location for back offices, nearshoring & offshoring and you get very predictable groupings\nThe following chart has a logarithmic scale applied to it so be sure to hover on each bar to have a clear number of layoffs over the desired country\nIt makes perfect sense for the chart to look like this as it seems to follow a pattern where the larger the tech economy, the harder the layoffs. However this is just a hypothesis",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Layoffs in 2024</span>"
-    ]
-  },
-  {
-    "objectID": "notebooks.layoffs.html#what-countries-where-the-most-affected",
-    "href": "notebooks.layoffs.html#what-countries-where-the-most-affected",
-    "title": "2  Layoffs in 2024",
-    "section": "",
-    "text": "(def layoffs-by-country\n  (-&gt; layoffs\n      (tc/group-by :country)\n      (tc/aggregate {:total-layoffs (fn [ds]\n                                      (-&gt; ds\n                                          :#-laid-off\n                                          tcc/sum))})\n      (tc/order-by :total-layoffs :desc)))\n\n\n(def plotly-layoffs-by-country\n  {:data [{\n           :x    (:$group-name layoffs-by-country)\n           :y    (:total-layoffs layoffs-by-country)\n           :type :bar\n           :marker {:size 4 :colorscale :Viridis}}]\n   :layout {\n            :xaxis {:title \"Countries\" :type :category}\n            :yaxis {:title \"People laid off\" :type :log}\n            :title \"Layoffs by country\"}})\n\n\n\nUnited States\nIndia\nUnited Kingdom\n\n\n(tc/head layoffs-by-country 3)\n\n\n_unnamed [3 2]:\n\n\n\n:$group-name\n:total-layoffs\n\n\n\n\nUnited States\n110170.0\n\n\nIndia\n14227.0\n\n\nUnited Kingdom\n10176.0\n\n\n\n\n\n\n(kind/plotly plotly-layoffs-by-country)\n\n\n\n\n\nThe “tech” industry may encompass different businesses from country to country\nThere is no objective metrics for errors of measure across each entry\nLayoffs can be attributed to a transnational decision. E,g: a company with an HQ in country A may opt for mass layoffs in it’s office located in country B. But this study is attributing the layoffs to country B, even though the decision may come from the same company, located elsewhere.\n\n\nsource: src/notebooks/layoffs.clj",
+    "text": "3 Overview\nThis study is fairly simple. The number of layoffs is going to grouped by other criteria exposed in the dataset such as country, HQ, industry, funding\nIf the study gains enough traction there’s a list of additions worth exploring, such as:",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Layoffs in 2024</span>"
     ]
@@ -33,8 +23,8 @@
     "objectID": "notebooks.layoffs.html#by-country",
     "href": "notebooks.layoffs.html#by-country",
     "title": "2  Layoffs in 2024",
-    "section": "",
-    "text": "United States\nIndia\nUnited Kingdom\n\n\n(defn layoffs-by [ds coll]\n  \"Groups a dataset by the value of coll and adds a new column :total-layoffs which is a tcc/sum of group.#-laid-off\"\n  (-&gt; layoffs\n      (tc/group-by coll)\n      (tc/aggregate {:total-layoffs (fn [ds]\n                                      (-&gt; ds\n                                          :#-laid-off\n                                          tcc/sum))})\n      (tc/order-by :total-layoffs :desc)))\n\n\n(def layoffs-by-country\n  (layoffs-by layoffs :country))\n\n\n(defn plotly-layoffs-by [ds y-axis-title title]\n  {:data [{\n           :x    (:$group-name ds)\n           :y    (:total-layoffs ds)\n           :type :bar\n           :marker {:size 4 :colorscale :Viridis}}]\n   :layout {\n            :xaxis {:title y-axis-title :type :category}\n            :yaxis {:title \"People laid off\" :type :log}\n            :title title}})\n\n\n(-&gt; layoffs-by-country\n    (tc/head 3)\n    (kind/table))\n\n\n\n\n\n\n\n$group-name\ntotal-layoffs\n\n\n\n\nUnited States\n110170.0\n\n\nIndia\n14227.0\n\n\nUnited Kingdom\n10176.0\n\n\n\n\n\n\n\n\n\n(kind/plotly\n (plotly-layoffs-by (layoffs-by layoffs :country) \"Countries\" \"Layoffs by country\"))\n\n\n\n\n2.1.1 The larger the tech economy, the more layoffs?\nThere are a few caveats with attempting to overlay the size of an economy, the size of it’s tech sector and the volume of the country’s layoffs within the tech industry:\n\nThe “tech” industry is an umbrella term. The tech industry may encompass different sub industries from country to country. Layoffs.fyi mostly has layoff data for the\nThere is no objective metrics for errors of measure across each entry\nLayoffs can be attributed to a transnational decision. E,g: a company with an HQ in country A may opt for mass layoffs in it’s office located in country B. But this study is attributing the layoffs to country B, even though the decision may come from the same company, located elsewhere.",
+    "section": "3.1 By country",
+    "text": "3.1 By country\nThe top 3 countries that were the most affected by reported mass layoffs in tech were:\n\nUnited States\nIndia\nUnited Kingdom\n\n\n(defn layoffs-by [ds coll]\n  \"Groups a dataset by the value of coll and adds a new column :total-layoffs which is a tcc/sum of group.#-laid-off\"\n  (-&gt; layoffs\n      (tc/group-by coll)\n      (tc/aggregate {:total-layoffs (fn [ds]\n                                      (-&gt; ds\n                                          :#-laid-off\n                                          tcc/sum))})\n      (tc/order-by :total-layoffs :desc)))\n\n\n(def layoffs-by-country\n  (layoffs-by layoffs :country))\n\n\n(defn plotly-layoffs-by [ds y-axis-title title]\n  {:data [{\n           :x    (:$group-name ds)\n           :y    (:total-layoffs ds)\n           :type :bar\n           :marker {:size 4 :colorscale :Viridis}}]\n   :layout {\n            :xaxis {:title y-axis-title :type :category}\n            :yaxis {:title \"People laid off\" :type :log}\n            :title title}})\n\n\n(-&gt; layoffs-by-country\n    (tc/head 3)\n    (kind/table))\n\n\n\n\n\n\n\n$group-name\ntotal-layoffs\n\n\n\n\nUnited States\n110170.0\n\n\nIndia\n14227.0\n\n\nUnited Kingdom\n10176.0\n\n\n\n\n\n\nThe recession is pretty global but an industry like tech has always been very connected the G7. Add to that the common location for back offices, nearshoring & offshoring and you get very predictable groupings\nThe following chart has a logarithmic scale applied to it so be sure to hover on each bar to have a clear number of layoffs over the desired country\n\n(kind/plotly\n (plotly-layoffs-by (layoffs-by layoffs :country) \"Countries\" \"Layoffs by country\"))\n\n\nIt makes perfect sense for the chart to look like this as it seems to follow a pattern where the larger the tech economy, the harder the layoffs. However this is just a hypothesis\n\n3.1.1 The larger the tech economy, the more layoffs?\nThere are a few caveats with attempting to overlay the size of an economy, the size of it’s tech sector and the volume of the country’s layoffs within the tech industry:\n\nThe “tech” industry is an umbrella term. The tech industry may encompass different sub industries from country to country. Layoffs.fyi mostly has layoff data for the\nThere is no objective metrics for errors of measure across each entry\nLayoffs can be attributed to a transnational decision. E,g: a company with an HQ in country A may opt for mass layoffs in it’s office located in country B. But this study is attributing the layoffs to country B, even though the decision may come from the same company, located elsewhere.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Layoffs in 2024</span>"
     ]
@@ -43,8 +33,8 @@
     "objectID": "notebooks.layoffs.html#where-are-the-hqs-located-by-number-of-layoffs",
     "href": "notebooks.layoffs.html#where-are-the-hqs-located-by-number-of-layoffs",
     "title": "2  Layoffs in 2024",
-    "section": "2.2 Where are the HQs located, by number of layoffs?",
-    "text": "2.2 Where are the HQs located, by number of layoffs?\n\n(def layoffs-by-location-hq (layoffs-by layoffs :location-hq))\n\n\n(kind/plotly\n (plotly-layoffs-by (tc/head layoffs-by-location-hq 50) \"Location HQ\" \"Layoffs by location HQ\"))",
+    "section": "3.2 Where are the HQs located, by number of layoffs?",
+    "text": "3.2 Where are the HQs located, by number of layoffs?\n\n(def layoffs-by-location-hq (layoffs-by layoffs :location-hq))\n\n\n(kind/plotly\n (plotly-layoffs-by (tc/head layoffs-by-location-hq 50) \"Location HQ\" \"Layoffs by location HQ\"))",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Layoffs in 2024</span>"
     ]
@@ -53,8 +43,18 @@
     "objectID": "notebooks.layoffs.html#by-industry",
     "href": "notebooks.layoffs.html#by-industry",
     "title": "2  Layoffs in 2024",
-    "section": "2.3 By Industry",
-    "text": "2.3 By Industry\n\n(def layoffs-by-industry (layoffs-by layoffs :industry))\n\n\n(tc/head layoffs-by-industry 10)\n\n\n_unnamed [10 2]:\n\n\n\n:$group-name\n:total-layoffs\n\n\n\n\nTransportation\n22037.0\n\n\nOther\n19256.0\n\n\nFinance\n16818.0\n\n\nRetail\n13495.0\n\n\nConsumer\n12855.0\n\n\nHardware\n12472.0\n\n\nFood\n9964.0\n\n\nInfrastructure\n9014.0\n\n\nHealthcare\n5631.0\n\n\nManufacturing\n5484.0\n\n\n\n\n\n(kind/plotly\n (plotly-layoffs-by (tc/head layoffs-by-industry 50) \"Industry\" \"Layoffs by industry\"))\n\n\nTransport, finance, retail & consumer tech were the most affected. These are industries directly affected by the wave of remote work too.\nWorking from home means a worker is less likely to spend in transportation, the high street or even plain consumer tech.\nFinance stands out but it’s an industry known for layoffs in mass. It doesn’t come across as a surprise. It’s a boom and bust industry.\n\nsource: src/notebooks/layoffs.clj",
+    "section": "3.3 By Industry",
+    "text": "3.3 By Industry\n\n(def layoffs-by-industry (layoffs-by layoffs :industry))\n\n\n(tc/head layoffs-by-industry 10)\n\n\n_unnamed [10 2]:\n\n\n\n:$group-name\n:total-layoffs\n\n\n\n\nTransportation\n22037.0\n\n\nOther\n19256.0\n\n\nFinance\n16818.0\n\n\nRetail\n13495.0\n\n\nConsumer\n12855.0\n\n\nHardware\n12472.0\n\n\nFood\n9964.0\n\n\nInfrastructure\n9014.0\n\n\nHealthcare\n5631.0\n\n\nManufacturing\n5484.0\n\n\n\n\n\n(kind/plotly\n (plotly-layoffs-by (tc/head layoffs-by-industry 50) \"Industry\" \"Layoffs by industry\"))\n\n\nTransport, finance, retail & consumer tech were the most affected. These are industries directly affected by the wave of remote work too.\nWorking from home means a worker is less likely to spend in transportation, the high street or even plain consumer tech.\nFinance stands out but it’s an industry known for layoffs in mass. It doesn’t come across as a surprise. It’s a boom and bust industry.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Layoffs in 2024</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks.layoffs.html#by-amount-of-funding-raised",
+    "href": "notebooks.layoffs.html#by-amount-of-funding-raised",
+    "title": "2  Layoffs in 2024",
+    "section": "3.4 By amount of funding raised",
+    "text": "3.4 By amount of funding raised\nTODO How to take the dataset and add a new column where the cell values are a valid range for the amount of funding a company may have\n\n(kind/plotly\n {:data [{\n          :x    (:$-raised-mm layoffs)\n          :y    (:total-layoffs layoffs)\n          :nbinsx 50\n          :type :bar\n          :marker {:size 4 :colorscale :Viridis}}]\n  :layout {\n           :xaxis {:title \"Amount of funding\" :type :category}\n           :yaxis {:title \"People laid off\"}\n           :title \"Layoffs by funding\"}})\n\n\n\nsource: src/notebooks/layoffs.clj",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Layoffs in 2024</span>"
     ]
